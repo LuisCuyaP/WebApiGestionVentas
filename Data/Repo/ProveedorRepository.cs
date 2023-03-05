@@ -17,6 +17,12 @@ namespace WebApi.Data.Repo
             dc.Proveedores.Add(proveedor);
         }
 
+        public async Task<Proveedor> GetProveedorDetailAsync(int id)
+        {
+            var proveedorDetail = await dc.Proveedores.FindAsync(id);
+            return proveedorDetail;
+        }
+
         public async Task<IEnumerable<Proveedor>> GetProveedoresAsync()
         {
             return await dc.Proveedores.ToListAsync();

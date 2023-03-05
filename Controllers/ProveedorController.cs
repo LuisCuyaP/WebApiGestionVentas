@@ -19,7 +19,7 @@ namespace WebApi.Controllers
             this.mapper = mapper;
         }
 
-        [HttpGet("proveedores")]
+        [HttpGet("list")]
         //[AllowAnonymous]
         public async Task<IActionResult> GetProveedores()
         {           
@@ -28,14 +28,24 @@ namespace WebApi.Controllers
             return Ok(proveedoresDto);            
         }
 
-        //Post--> api/proveedor/post --Post the data in JSON Format
-        [HttpPost("post")]
+        //proveedor/detail/1
+        [HttpGet("detail/{id}")]
+        //[AllowAnonymous]
+        public async Task<IActionResult> GetProveedorDetail(int id)
+        {
+            var proveedor = await uow.ProveedorRepository.GetProveedorDetailAsync(id);
+            var proveedorDto = mapper.Map<ProveedorDetailDto>(proveedor);
+            return Ok(proveedorDto);
+        }
+
+        //Post--> add/proveedor/post --Post the data in JSON Format
+        [HttpPost("add")]
         public async Task<IActionResult> AddProveedor(ProveedorAddDto proveedorAddDto)
         {   
             var proveedor = mapper.Map<Proveedor>(proveedorAddDto);
-            proveedor.LastUpdatedOn = DateTime.Now;
-            proveedor.LastUpdatedBy = 1;      
-
+            var userId = 1;
+            proveedor.PostedBy = userId;            
+            proveedor.LastUpdatedBy = userId;      
             uow.ProveedorRepository.AddProveedor(proveedor);
             await uow.SaveAsync();
             return StatusCode(201);
