@@ -21,7 +21,7 @@ namespace WebApi.Controllers
         }
 
         [HttpGet("list")]
-        //[AllowAnonymous]
+        [AllowAnonymous]
         public async Task<IActionResult> GetProveedores()
         {
             var proveedores = await uow.ProveedorRepository.GetProveedoresAsync();
@@ -31,7 +31,7 @@ namespace WebApi.Controllers
 
         //proveedor/detail/1
         [HttpGet("detail/{id}")]
-        //[AllowAnonymous]
+        [AllowAnonymous]
         public async Task<IActionResult> GetProveedorDetail(int id)
         {
             var proveedor = await uow.ProveedorRepository.GetProveedorDetailAsync(id);
@@ -41,6 +41,7 @@ namespace WebApi.Controllers
 
         //Post--> add/proveedor/post --Post the data in JSON Format
         [HttpPost("add")]
+        [Authorize]
         public async Task<IActionResult> AddProveedor(ProveedorAddDto proveedorAddDto)
         {
             var proveedor = mapper.Map<Proveedor>(proveedorAddDto);
@@ -53,6 +54,7 @@ namespace WebApi.Controllers
         }
 
         [HttpDelete("delete/{id}")]
+        [Authorize]
         public async Task<IActionResult> DeleteProveedor(int id)
         {
             var proveedor = await uow.ProveedorRepository.GetProveedorByIdAsync(id);
@@ -66,6 +68,7 @@ namespace WebApi.Controllers
         }
 
         [HttpPut("update/{id}")]
+        [Authorize]
         public async Task<IActionResult> UpdateProveedor(int id, ProveedorUpdateDto proveedorUpdateDto)
         {
             if (id != proveedorUpdateDto.Id)
