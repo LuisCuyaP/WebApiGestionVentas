@@ -12,6 +12,8 @@ namespace WebApi.Helpers
 
             CreateMap<Proveedor, ProveedorAddDto>().ReverseMap();
 
+            CreateMap<Proveedor, ProveedorUpdateDto>().ReverseMap();
+
             CreateMap<Proveedor, ProveedorDetailDto>();
         }
     }
